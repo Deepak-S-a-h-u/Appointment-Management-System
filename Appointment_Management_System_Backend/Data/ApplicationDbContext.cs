@@ -1,4 +1,5 @@
-﻿using AppointmentManagementSystem.Models;
+﻿using Appointment_Management_System_Backend.Models;
+using AppointmentManagementSystem.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,10 +15,12 @@ namespace Appointment_Management_System_Backend.Data
             : base(options)
         {
         }
-        /*public DbSet<Department> Departments { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<AppointmentDetails> AppointmentDetails { get; set; }
+         public DbSet<DoctorDetails> DoctorDetails { get; set; }
+           public DbSet<PatientDetails> PatientDetails { get; set; }
 
-*/
     }
 }
