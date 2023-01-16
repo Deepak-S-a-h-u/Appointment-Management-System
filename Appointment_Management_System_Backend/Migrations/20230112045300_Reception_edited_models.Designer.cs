@@ -4,14 +4,16 @@ using Appointment_Management_System_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Appointment_Management_System_Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230112045300_Reception_edited_models")]
+    partial class Reception_edited_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,13 +44,19 @@ namespace Appointment_Management_System_Backend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DoctorDetailsId")
+                    b.Property<int?>("DoctorDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsFixed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PatientDetailsId")
+                    b.Property<int?>("PatientDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Time")
@@ -359,15 +367,11 @@ namespace Appointment_Management_System_Backend.Migrations
                 {
                     b.HasOne("Appointment_Management_System_Backend.Models.DoctorDetails", "DoctorDetails")
                         .WithMany()
-                        .HasForeignKey("DoctorDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorDetailsId");
 
                     b.HasOne("Appointment_Management_System_Backend.Models.PatientDetails", "PatientDetails")
                         .WithMany()
-                        .HasForeignKey("PatientDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientDetailsId");
 
                     b.Navigation("DoctorDetails");
 

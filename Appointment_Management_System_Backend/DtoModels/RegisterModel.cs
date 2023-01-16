@@ -1,5 +1,4 @@
-﻿using Appointment_Management_System_Backend.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Appointment_Management_System_Backend.Migrations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,11 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppointmentManagementSystem.Models
+namespace Appointment_Management_System_Backend.DtoModels
 {
-    public class ApplicationUser:IdentityUser
+    public class RegisterModel
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -21,12 +19,11 @@ namespace AppointmentManagementSystem.Models
         [Required]
         public Gender Gender { get; set; }
         [Required]
-        public string Email { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
         [NotMapped]
         public string Role { get; set; }
-       
 
     }
 }

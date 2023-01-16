@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Appointment_Management_System_Backend.Models
 {
-    public class PatientDetails
+    public class Reception
     {
         public int Id { get; set; }
-        public int PatientUserId { get; set; }
+        public int ReceptionUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public string Disease { get; set; }
-        public bool StatusPatient { get; set; }
+    
     }
 }

@@ -43,6 +43,17 @@ namespace Appointment_Management_System_Backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment_Management_System_Backend", Version = "v1" });
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "myPolicy", Builder =>
+
+                {
+                    Builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +67,8 @@ namespace Appointment_Management_System_Backend
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("myPolicy");
 
             app.UseRouting();
 
