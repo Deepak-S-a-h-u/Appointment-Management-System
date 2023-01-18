@@ -1,4 +1,5 @@
 using Appointment_Management_System_Backend.Data;
+using AppointmentManagementSystem.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,9 @@ namespace Appointment_Management_System_Backend
                 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+          //  services.AddIdentity<ApplicationUser, ApplicationIdentity>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

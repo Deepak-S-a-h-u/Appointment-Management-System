@@ -2,6 +2,7 @@
 using AppointmentManagementSystem.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,11 @@ namespace Appointment_Management_System_Backend.Controllers
     public class DepartmentController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public DepartmentController(ApplicationDbContext context)
+        private readonly ILogger<DepartmentController> _logger;
+
+        public DepartmentController(ApplicationDbContext context,ILogger<DepartmentController> logger)
         {
+            _logger = logger;
             _context = context;
         }
         [HttpGet]
@@ -24,6 +28,7 @@ namespace Appointment_Management_System_Backend.Controllers
             var departmentList = _context.Departments.ToList();
             if (departmentList.Count != 0)
             {
+                _logger.LogInformation("Data Displayed from Departments by return");
                 return Ok(departmentList);
             }
             return Ok("no data found");
