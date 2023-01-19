@@ -1,4 +1,5 @@
 ﻿using Appointment_Management_System_Backend2.Models;
+using Appointment_Management_System_Backend2.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,12 @@ namespace Appointment_Management_System_Backend2.Models
 {
     public class ApplicationUser:IdentityUser
     {
-        public int Id { get; set; }
-        [Required]
+       
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]
         public int GenderId { get; set; }
-        [Required]
         public Gender Gender { get; set; }
         [Required]
         public string Email { get; set; }
@@ -30,7 +29,7 @@ namespace Appointment_Management_System_Backend2.Models
         
         [NotMapped]
         public string Role { get; set; }
-
+        public List<ApplicationRole> ApplicationRoles { get; set; }
         [NotMapped]
         public string Token { get; set; }
     }
