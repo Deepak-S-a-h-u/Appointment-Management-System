@@ -26,7 +26,7 @@ namespace Appointment_Management_System_Backend2.Controllers
 
         public RegisterUserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-        //    IEmailSender emailSender,
+        //  IEmailSender emailSender,
             RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterUserController> logger,
             ApplicationDbContext context
@@ -35,7 +35,7 @@ namespace Appointment_Management_System_Backend2.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            //            _emailSender = emailSender;
+           //_emailSender = emailSender;
             _roleManager = roleManager;
             _context = context;
         }
@@ -60,14 +60,23 @@ namespace Appointment_Management_System_Backend2.Controllers
                 ConfirmPassword=applicationUser.ConfirmPassword
             };
             var result = await _userManager.CreateAsync(user, applicationUser.Password) ;
+            _logger.LogInformation("User created a new account with password.");
             if (result.Succeeded)
             {
                 var role = new ApplicationRole();
-                role.Name = Sd.Role_Admin;
 
-                await _roleManager.CreateAsync(role);
-                await _context.SaveChangesAsync();
-                await  _userManager.AddToRoleAsync(user,Sd.Role_Admin);
+                if (applicationUser.Role == "")
+                {
+                    role.Name = Sd.Role_Patient;
+                }
+                else
+                {
+                    role.Name = applicationUser.Role;
+                }
+                /*await _roleManager.CreateAsync(role);
+                await _context.SaveChangesAsync();*/
+
+                await  _userManager.AddToRoleAsync(user,role.Name);
                 await _context.SaveChangesAsync();
                 return Ok(user);
             }
