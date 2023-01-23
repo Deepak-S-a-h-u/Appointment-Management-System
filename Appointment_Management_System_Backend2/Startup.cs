@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Appointment_Management_System_Backend2.Utility;
 
 namespace Appointment_Management_System_Backend2
 {
@@ -36,7 +37,8 @@ namespace Appointment_Management_System_Backend2
             services.AddTransient<SignInManager<ApplicationUser>, ApplicationSignInManager>();
             services.AddTransient<RoleManager<ApplicationRole>, ApplicationRoleManager>();
             services.AddTransient<IUserStore<ApplicationUser>, ApplicationUserStore>();
-          //  services.AddTransient<IUserService, UserServices>();
+
+            //  services.AddTransient<IUserService, UserServices>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddUserStore<ApplicationUserStore>()
@@ -47,6 +49,10 @@ namespace Appointment_Management_System_Backend2
             .AddDefaultTokenProviders();
             services.AddScoped<ApplicationRoleStore>();
             services.AddScoped<ApplicationUserStore>();
+
+
+            services.AddScoped<IEmailSender, EmailSender>();
+
             //  services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 
@@ -74,8 +80,10 @@ namespace Appointment_Management_System_Backend2
                 };
             });
 
+            services.Configure<emailSettings>(Configuration.GetSection("EmailSettings"));
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment_Management_System_Backend2", Version = "v1" });

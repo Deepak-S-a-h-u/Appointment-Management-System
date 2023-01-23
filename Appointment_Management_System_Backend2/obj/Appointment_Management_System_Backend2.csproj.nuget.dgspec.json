@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[5.0.17, )"
             },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            },
             "NLog.Web.AspNetCore": {
               "target": "Package",
               "version": "[4.8.2, )"

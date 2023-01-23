@@ -2,13 +2,17 @@
 using Appointment_Management_System_Backend2.Models;
 using Appointment_Management_System_Backend2.Models.Identity;
 using Appointment_Management_System_Backend2.Utility;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MimeKit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace Appointment_Management_System_Backend2.Controllers
@@ -19,104 +23,155 @@ namespace Appointment_Management_System_Backend2.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        //  private readonly IEmailSender _emailSender;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<RegisterUserController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
+        private IWebHostEnvironment _env;
 
-        public RegisterUserController(UserManager<ApplicationUser> userManager,
+        public RegisterUserController(
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-        //  IEmailSender emailSender,
+            IEmailSender emailSender,
             RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterUserController> logger,
-            ApplicationDbContext context
+            ApplicationDbContext context,
+            IWebHostEnvironment env
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-           //_emailSender = emailSender;
             _roleManager = roleManager;
             _context = context;
+            _emailSender = emailSender;
+            _env = env;
         }
 
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] ApplicationUser applicationUser)
-
+        [NonAction]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (!ModelState.IsValid)
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
             {
-                return BadRequest(ModelState);
+                return NotFound($"Unable to load user with ID '{userId}'.");
             }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest($"Error confirming email for user with ID '{userId}':");
+            }
+            return Ok();
+        }
 
-            var user = new ApplicationUser { 
-                UserName = applicationUser.Email, 
-                Email = applicationUser.Email,
-                Name=applicationUser.Name,
-                Address=applicationUser.Address,
-                GenderId=applicationUser.GenderId,
-                Password=applicationUser.Password,
-                ConfirmPassword=applicationUser.ConfirmPassword
+        [HttpPost("RegisterUser")]
+        public async Task<IActionResult> RegisterUser([FromBody] ApplicationUser model)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var applicationUser = new ApplicationUser()
+            {
+               
+
+                UserName = model.Email,
+                Email = model.Email,
+                Name = model.Name,
+                Address = model.Address,
+                GenderId = model.GenderId,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword
             };
-            var result = await _userManager.CreateAsync(user, applicationUser.Password) ;
-            _logger.LogInformation("User created a new account with password.");
+            var result = await _userManager.CreateAsync(applicationUser, model.Password);
             if (result.Succeeded)
             {
-                var role = new ApplicationRole();
-
-                if (applicationUser.Role == "")
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = applicationUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
+                           + Path.DirectorySeparatorChar.ToString()
+                           + "EmailTemplateHTML"
+                           + Path.DirectorySeparatorChar.ToString()
+                           + "EmailTemplateWelcome.html";
+                string Message = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                var subject = "Confirm Account Registration";
+                var builder = new BodyBuilder();
+                using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
                 {
-                    role.Name = Sd.Role_Patient;
-                }
-                else
-                {
-                    role.Name = applicationUser.Role;
-                }
-                /*await _roleManager.CreateAsync(role);
-                await _context.SaveChangesAsync();*/
 
-                await  _userManager.AddToRoleAsync(user,role.Name);
-                await _context.SaveChangesAsync();
-                return Ok(user);
+                }
+                string messageBody = string.Format(builder.HtmlBody,
+                    String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now),
+                        subject,
+                        model.Email,
+                        model.Name,
+                        model.Password,
+                        Message,
+                        callbackUrl
+                        );
+                await _emailSender.SendEmailAsync(model.Email, subject, messageBody);
+              
             }
-
-            return BadRequest(result.Errors);
+            return Ok();
         }
-    /*    This code assumes that you have already set up an ApplicationUser class and a UserManager<T> service in your project, and that you have defined a RegisterViewModel class with properties for the user's email, password, and role.
-
-It also assumes you have already created the role and added it to your Identity framework.
-
-This method receives a RegisterViewModel object as a parameter and first checks if the input is valid.If not, it returns a bad request.It then creates a new ApplicationUser object and uses the UserManager service to create a new user account with the email and password provided in the model.If the account is successfully created, it adds the role to the user using the UserManager service.Finally it returns an ok response or a BadRequest with error messages.
-
-Please note that this is just an example and you should consider validations, error handling and security measures in your production code.*/
-
-
-
-
-
-       /* public async Task<IActionResult> RegisterUser([FromBody] ApplicationUser applicationUser)
-        {
-            if(!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid state");
-                return Ok("ModelState Invalid");
-            }
-            else
-            {
-               if(applicationUser.Password != applicationUser.ConfirmPassword)
-                {
-                    _logger.LogWarning("Password not matched");
-                    return Ok("Password Not Matched");
-                }
-                else
-                {
-                    _signInManager.SignInAsync(applicationUser.Role, Sd.Role_Admin);
-                    _context.SaveChangesAsync();
-                    return Ok(applicationUser);
-                }
-            }
-        }
-        */
     }
 }
+
+
+/*[HttpPost]
+[Route("register")]
+public async Task<IActionResult> RegisterUser([FromBody] ApplicationUser applicationUser)
+
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+
+    var user = new ApplicationUser
+    {
+        UserName = applicationUser.Email,
+        Email = applicationUser.Email,
+        Name = applicationUser.Name,
+        Address = applicationUser.Address,
+        GenderId = applicationUser.GenderId,
+        Password = applicationUser.Password,
+        ConfirmPassword = applicationUser.ConfirmPassword
+    };
+    var result = await _userManager.CreateAsync(user, applicationUser.Password);
+    _logger.LogInformation("User created a new account with password.");
+    if (result.Succeeded)
+    {
+        var role = new ApplicationRole();
+
+        if (applicationUser.Role == "")
+        {
+            role.Name = Sd.Role_Patient;
+        }
+        else
+        {
+            role.Name = applicationUser.Role;
+        }
+        *//*await _roleManager.CreateAsync(role);
+        await _context.SaveChangesAsync();*//*
+
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        var callbackUrl = Url.Page(
+            "/Account/ConfirmEmail",
+            pageHandler: null,
+            values: new { area = "Identity", userId = user.Id, code = code },
+            protocol: Request.Scheme);
+
+        await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+        await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
+            $"");
+
+        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        {
+            return RedirectToPage("RegisterConfirmation", new { email = user.Email });
+        }
+        return Ok(user);
+    }
+    return BadRequest(result.Errors);
+}*/
