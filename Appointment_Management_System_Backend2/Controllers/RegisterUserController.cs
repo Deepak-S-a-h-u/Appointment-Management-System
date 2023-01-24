@@ -1,7 +1,9 @@
 ﻿using Appointment_Management_System_Backend2.Data;
 using Appointment_Management_System_Backend2.Models;
 using Appointment_Management_System_Backend2.Models.Identity;
+using Appointment_Management_System_Backend2.Models.ViewModel;
 using Appointment_Management_System_Backend2.Utility;
+using Appointment_Management_System_Backend2.Utility.Repository.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,7 @@ namespace Appointment_Management_System_Backend2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private IWebHostEnvironment _env;
+        private readonly IUserLogin _userLogin;
 
         public RegisterUserController(
             UserManager<ApplicationUser> userManager,
@@ -36,7 +39,8 @@ namespace Appointment_Management_System_Backend2.Controllers
             RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterUserController> logger,
             ApplicationDbContext context,
-            IWebHostEnvironment env
+            IWebHostEnvironment env,
+            IUserLogin userLogin
             )
         {
             _userManager = userManager;
@@ -46,6 +50,7 @@ namespace Appointment_Management_System_Backend2.Controllers
             _context = context;
             _emailSender = emailSender;
             _env = env;
+            _userLogin = userLogin;
         }
 
         [NonAction]
@@ -96,7 +101,7 @@ namespace Appointment_Management_System_Backend2.Controllers
                 var builder = new BodyBuilder();
                 using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
                 {
-
+                    builder.HtmlBody = SourceReader.ReadToEnd();
                 }
                 string messageBody = string.Format(builder.HtmlBody,
                     String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now),
@@ -108,12 +113,24 @@ namespace Appointment_Management_System_Backend2.Controllers
                         callbackUrl
                         );
                 await _emailSender.SendEmailAsync(model.Email, subject, messageBody);
-              
+                return Ok();
             }
-            return Ok();
+            else
+            return BadRequest(result.Errors);
+        }
+
+
+        [HttpPost("LoginAuthorizeUser")]
+        public async Task<IActionResult> LoginAuthorizeUser([FromBody] LoginViewModel loginViewModel)
+        {
+            var user = await _userLogin.Authenticate(loginViewModel);
+            if (user == null)
+                return BadRequest(new { status = 0, message = "wrong UserName/Password" });
+            return Ok(user);
         }
     }
 }
+
 
 
 /*[HttpPost]

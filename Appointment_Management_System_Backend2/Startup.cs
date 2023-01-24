@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Appointment_Management_System_Backend2.Utility;
+using Appointment_Management_System_Backend2.Utility.Repository.IRepository;
+using Appointment_Management_System_Backend2.Utility.Repository;
 
 namespace Appointment_Management_System_Backend2
 {
@@ -52,6 +54,7 @@ namespace Appointment_Management_System_Backend2
 
 
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IUserLogin, UserLogin>();
 
             //  services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
