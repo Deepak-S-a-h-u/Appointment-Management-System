@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using Appointment_Management_System_Backend2.Utility;
 using Appointment_Management_System_Backend2.Utility.Repository.IRepository;
 using Appointment_Management_System_Backend2.Utility.Repository;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Options;
 
 namespace Appointment_Management_System_Backend2
 {
@@ -56,7 +58,7 @@ namespace Appointment_Management_System_Backend2
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IUserLogin, UserLogin>();
 
-            //  services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+              services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 
             //add JWT Authentication
@@ -91,6 +93,19 @@ namespace Appointment_Management_System_Backend2
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment_Management_System_Backend2", Version = "v1" });
             });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "myPolicy", Builder =>
+
+                {
+                    Builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,11 +117,13 @@ namespace Appointment_Management_System_Backend2
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Appointment_Management_System_Backend2 v1"));
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+
+            app.UseCors("myPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

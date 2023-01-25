@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import swal from "sweetalert";
 
 function Department() {
+  var departmentInit={
+    departmentName:""
+  }
   const [department, SetDepartment] = useState([]);
-  const [departmentForm, SetDepartmentForm] = useState({});
+  const [departmentForm, SetDepartmentForm] = useState(departmentInit);
   useEffect(() => {
     GetAllDepartments();
   },[]);
   const GetAllDepartments = () => {
     axios
-      .get("https://localhost:44375/api/Department")
+      .get("https://localhost:44338/api/Department")
       .then((d) => {
         SetDepartment(d.data);
         console.log(d.data);
@@ -22,9 +26,14 @@ function Department() {
   };
   const SaveDepartments = () => {
     axios
-      .post("https://localhost:44375/api/Department/",departmentForm)
+      .post("https://localhost:44338/api/Department/",departmentForm)
       .then(() => {
-        alert("Data Saved")
+        swal({
+          title: "Created😍😎",
+          text: "You Create the Department!",
+          icon: "success",
+        });
+        // alert("Data Saved")
         GetAllDepartments();
         //   SetEmployeeForm(initData);
       })
@@ -74,11 +83,16 @@ function Department() {
 function UpdateDepartmentsClick()
 {
   axios
-  .put("https://localhost:44375/api/Department/",departmentForm)
+  .put("https://localhost:44338/api/Department/",departmentForm)
   .then(() => {
-    alert("Data Updated");
+    swal({
+      title: "Good job!",
+      text: "You Update the Department!",
+      icon: "success",
+    });
+    // alert("Data Updated");
     GetAllDepartments();
-    //   SetEmployeeForm(initData);
+    SetDepartmentForm(departmentInit);
   })
   .catch((e) => {
     console.log(e);
@@ -86,15 +100,29 @@ function UpdateDepartmentsClick()
 }
 
 function deleteDepartmentClick(id){
-  axios.delete("https://localhost:44375/api/Department/"+id).then((d)=>{
-    
-      alert("Department Deleted");
-      GetAllDepartments();
-    
-  }).catch((e)=>{
-    alert('api is not working');
+  const result=swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this imaginary file!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
   })
- }
+  .then((willDelete) => {
+    if (willDelete) {
+          axios.delete("https://localhost:44338/api/Department/"+id).then(()=>{
+               swal("Deleted!", "Department Deleted successfully", "success");
+              GetAllDepartments();         
+          }).catch((e)=>{
+            swal("🤷‍♂️","kuch toh gadhbadh hai daya!","error");
+          })
+    } else {
+      swal("🤷‍♂️","kuch toh gadhbadh hai daya!","error");
+      // swal("Stop","Data not deleted","error");
+      
+    }
+  });
+ };
+ 
 
   return (
     <div>

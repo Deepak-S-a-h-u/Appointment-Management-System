@@ -1,0 +1,181 @@
+2023-01-25 11:31:52.9701|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 11:35:41.6426|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 11:36:40.0213|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:28:03.6454|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 14:31:31.5381|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 14:31:46.1356|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:35:55.5497|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:36:08.7800|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:36:08.9467|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:37:45.4705|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:37:49.0752|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:37:50.3597|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:37:50.3597|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:29.4246|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:29.4246|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:30.8241|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:56.2713|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:56.2979|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:56.3255|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:38:56.3955|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:39:19.1121|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:39:41.1188|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:39:41.1458|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 14:51:38.9602|ERROR|Microsoft.EntityFrameworkCore.Database.Command|Failed executing DbCommand (20ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Departments] ([Id], [DepartmentName])
+VALUES (@p0, @p1);
+2023-01-25 14:51:39.2841|ERROR|Microsoft.EntityFrameworkCore.Update|An exception occurred in the database while saving changes for context type 'Appointment_Management_System_Backend2.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert explicit value for identity column in table 'Departments' when IDENTITY_INSERT is set to OFF.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+ClientConnectionId:95f35ff8-48bf-4cd9-ac51-909a8d3a96ce
+Error Number:544,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(DbContext _, Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+2023-01-25 14:56:54.2012|ERROR|Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware|An unhandled exception has occurred while executing the request.
+2023-01-25 15:05:39.3146|ERROR|Microsoft.EntityFrameworkCore.Database.Command|Failed executing DbCommand (16ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Departments] ([Id], [DepartmentName])
+VALUES (@p0, @p1);
+2023-01-25 15:05:39.4313|ERROR|Microsoft.EntityFrameworkCore.Update|An exception occurred in the database while saving changes for context type 'Appointment_Management_System_Backend2.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert explicit value for identity column in table 'Departments' when IDENTITY_INSERT is set to OFF.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+ClientConnectionId:73d6d8d2-5fd1-4ca4-b0de-c625c55db832
+Error Number:544,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(DbContext _, Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+2023-01-25 15:06:19.4387|ERROR|Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware|An unhandled exception has occurred while executing the request.
+2023-01-25 15:37:44.8669|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:37:50.8137|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:37:50.9999|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:37:58.1817|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:37:58.2033|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:07.3178|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:07.3490|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:08.6360|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:08.7064|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:11.8870|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:11.9083|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:17.1910|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:17.2024|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:19.8060|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:19.8892|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:24.2297|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:24.2947|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:45.1048|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:38:45.1294|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:07.8941|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:07.9630|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:09.2216|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:09.2739|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:18.6681|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:18.7056|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:26.1921|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:26.9255|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:29.7617|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:29.9420|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:38.0269|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:38.2866|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:38.9981|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:39.0407|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:41.6170|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:41.6315|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:47.5084|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:47.5226|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:49.5264|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:49.5875|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:51.3461|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:51.4134|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:59.4561|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:39:59.4821|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:05.4251|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:05.4689|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:08.5390|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:08.5864|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:09.1829|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:09.1900|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:15.1757|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:15.1884|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:17.8417|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:17.8621|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:22.0781|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:22.2259|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:40.9103|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:40.9496|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:46.1040|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:40:46.2690|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:41:06.4827|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:41:07.1279|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:41:55.2731|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:41:55.3159|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:47:22.4915|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:00.2654|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:00.4054|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:03.0274|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:03.0354|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:04.2399|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:04.2510|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:13.3293|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:13.3717|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:17.0101|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:17.0207|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:27.1602|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:27.1602|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:30.7875|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:30.7970|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:34.4603|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:34.5363|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:38.7661|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:38.7661|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:40.5960|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:40.6078|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:46.9784|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:46.9875|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:49.1946|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:49.2044|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:57.5008|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:48:57.5466|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:49:17.5106|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 15:49:17.5701|INFO|Appointment_Management_System_Backend.Controllers.DepartmentController|no data found in get department
+2023-01-25 18:43:53.0746|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 18:43:53.0746|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 18:59:11.1215|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.
+2023-01-25 19:11:48.8845|WARN|Microsoft.EntityFrameworkCore.Infrastructure|'AddEntityFramework*' was called on the service provider, but 'UseInternalServiceProvider' wasn't called in the DbContext options configuration. Consider removing the 'AddEntityFramework*' call, as in most cases it's not needed and may cause conflicts with other products and services registered in the same service provider.

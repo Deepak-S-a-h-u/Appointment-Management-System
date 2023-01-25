@@ -3,11 +3,13 @@ using Appointment_Management_System_Backend2.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Appointment_Management_System_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -33,6 +33,15 @@ namespace Appointment_Management_System_Backend2.Utility.Repository
                 var applicationUser = await _applicationUserManager.FindByNameAsync(loginViewModel.UserName);
                 applicationUser.PasswordHash = "";
 
+                applicationUser = new ApplicationUser()
+                {
+                    Name = applicationUser.Name,
+                    Address = applicationUser.Address,
+                    Email = applicationUser.Email,
+                    Gender = applicationUser.Gender,
+                    Role = applicationUser.Role
+
+                };
 
                 //jwt token
                 if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin/*,Sd.GetClaim*/))

@@ -25,7 +25,7 @@ namespace AppointmentManagementSystem.Models
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         [Required]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirm password do not match.")]
         public string ConfirmPassword { get; set; }
         
         [NotMapped]
