@@ -1,7 +1,9 @@
-﻿using Appointment_Management_System_Backend2.Models;
+﻿using Appointment_Management_System_Backend2.Data;
+using Appointment_Management_System_Backend2.Models;
 using Appointment_Management_System_Backend2.Models.Identity;
 using Appointment_Management_System_Backend2.Models.ViewModel;
 using Appointment_Management_System_Backend2.Utility.Repository.IRepository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,48 +15,63 @@ using System.Threading.Tasks;
 
 namespace Appointment_Management_System_Backend2.Utility.Repository
 {
-    public class UserLogin:IUserLogin
+    public class UserLogin : IUserLogin
     {
         private readonly ApplicationUserManager _applicationUserManager;
         private readonly ApplicationSignInManager _applicationSignInManager;
         private readonly AppSetting _appSettings;
-        public UserLogin(ApplicationUserManager applicationUserManager, ApplicationSignInManager applicationSignInManager, IOptions<AppSetting> appSettings)
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _context;
+        public UserLogin(ApplicationUserManager applicationUserManager, ApplicationSignInManager applicationSignInManager, IOptions<AppSetting> appSettings, RoleManager<ApplicationRole> roleManager,
+            ApplicationDbContext context
+)
         {
+            _context = context;
             _applicationSignInManager = applicationSignInManager;
             _applicationUserManager = applicationUserManager;
             _appSettings = appSettings.Value;
+            _roleManager = roleManager;
+
         }
 
         public async Task<ApplicationUser> Authenticate(LoginViewModel loginViewModel)
         {
             var result = await _applicationSignInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, false, false);
+
+           
+
             if (result.Succeeded)
             {
                 var applicationUser = await _applicationUserManager.FindByNameAsync(loginViewModel.UserName);
                 applicationUser.PasswordHash = "";
 
-                applicationUser = new ApplicationUser()
-                {
-                    Name = applicationUser.Name,
-                    Address = applicationUser.Address,
-                    Email = applicationUser.Email,
-                    Gender = applicationUser.Gender,
-                    Role = applicationUser.Role
+                var roles = await _applicationUserManager.GetRolesAsync(applicationUser);
 
-                };
+                //var role = _context.RoleClaims(role,ApplicationRoleManager)
+
+
+
+
+
+
+
+
+
 
                 //jwt token
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin/*,Sd.GetClaim*/))
+                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin))
                 {
                     applicationUser.Role = Sd.Role_Admin;
                     /*                    applicationUser.Role = SD.GetClaim && SD.PostClaim;
                     */
                 }
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Doctor))
+                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin))
+                    applicationUser.Role = Sd.Role_Admin;
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Doctor))
                     applicationUser.Role = Sd.Role_Doctor;
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Reception))
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Reception))
                     applicationUser.Role = Sd.Role_Reception;
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Patient))
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Patient))
                     applicationUser.Role = Sd.Role_Patient;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -62,13 +79,13 @@ namespace Appointment_Management_System_Backend2.Utility.Repository
 
                 var tokenDiscriptor = new SecurityTokenDescriptor()
                 {
-                    /*Subject = new ClaimsIdentity(new Claim[]
+                    Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name,applicationUser.Id),
+                       /* new Claim(ClaimTypes.Name,applicationUser.Id),
                         new Claim(ClaimTypes.Email,applicationUser.Email),
                         new Claim(ClaimTypes.Role,applicationUser.Role)
-
-                    }),*/
+*/
+                    }),
                     Expires = DateTime.UtcNow.AddHours(30),
                     //    Expires = DateTime.UtcNow.AddSeconds(10),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

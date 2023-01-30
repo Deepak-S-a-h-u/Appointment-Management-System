@@ -4,22 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Appointment_Management_System_Backend2.Utility;
 
 namespace Appointment_Management_System_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class DepartmentController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly  ILogger<DepartmentController> _logger;
+        private readonly ILogger<DepartmentController> _logger;
 
         public DepartmentController(ApplicationDbContext context, ILogger<DepartmentController> logger)
         {
             _context = context;
             _logger = logger;
         }
+
+
         [HttpGet]
         public IActionResult GetDepartmentList()
         {
@@ -31,6 +34,9 @@ namespace Appointment_Management_System_Backend.Controllers
             _logger.LogInformation("no data found in get department");
             return Ok("no data found");
         }
+
+        /*[Authorize(Roles = Sd.Role_Admin)]
+        */
         [HttpPost]
         public IActionResult PostDepartment([FromBody] Department department)
         {

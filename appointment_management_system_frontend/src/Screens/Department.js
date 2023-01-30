@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
+import NavBar from "./NavBar";
 
 function Department() {
   var departmentInit={
@@ -33,9 +34,9 @@ function Department() {
           text: "You Create the Department!",
           icon: "success",
         });
-        // alert("Data Saved")
+      
         GetAllDepartments();
-        //   SetEmployeeForm(initData);
+        SetDepartmentForm(departmentInit);
       })
       .catch((e) => {
         console.log(e);
@@ -126,6 +127,7 @@ function deleteDepartmentClick(id){
 
   return (
     <div>
+      <NavBar/>
       <div className="row">
         <div className="col-10">
           <h2 className="text-primary text-left">Department List</h2>
@@ -179,6 +181,7 @@ function deleteDepartmentClick(id){
                       //    value={employeeForm.name}
                       className="form-control"
                       name="departmentName"
+                      value={departmentForm.departmentName}
                       type="text"
                       id="departmentName"
                       placeholder="Department Name"

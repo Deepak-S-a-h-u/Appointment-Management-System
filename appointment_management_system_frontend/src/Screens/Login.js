@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ function Login() {
         console.log(x);
           var token=d.data.token;
           localStorage.setItem("userToken",token);
-          localStorage.setItem("User",d.data.role);
+          console.log(d.data.role)
+          localStorage.setItem("Role",d.data.role);
 
         navigate("/department");
       });
@@ -32,6 +34,7 @@ function Login() {
 
   return (
     <div>
+      <NavBar/>
       <div class="card text-center m-5 p-7 col-sm-5 mx-auto">
         <div class="card-header">Login</div>
         <div class="card-body  mx-auto">

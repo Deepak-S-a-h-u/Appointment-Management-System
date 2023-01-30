@@ -27,7 +27,6 @@ namespace Appointment_Management_System_Backend2.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<RegisterUserController> _logger;
-        private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private IWebHostEnvironment _env;
         private readonly IUserLogin _userLogin;
@@ -38,7 +37,6 @@ namespace Appointment_Management_System_Backend2.Controllers
             IEmailSender emailSender,
             RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterUserController> logger,
-            ApplicationDbContext context,
             IWebHostEnvironment env,
             IUserLogin userLogin
             )
@@ -47,7 +45,6 @@ namespace Appointment_Management_System_Backend2.Controllers
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
-            _context = context;
             _emailSender = emailSender;
             _env = env;
             _userLogin = userLogin;
@@ -75,22 +72,37 @@ namespace Appointment_Management_System_Backend2.Controllers
             if (!ModelState.IsValid) return BadRequest();
             var applicationUser = new ApplicationUser()
             {
-               
-
                 UserName = model.Email,
                 Email = model.Email,
                 Name = model.Name,
                 Address = model.Address,
                 GenderId = model.GenderId,
                 Password = model.Password,
-                ConfirmPassword = model.ConfirmPassword
+                ConfirmPassword = model.ConfirmPassword,
+                Role = model.Role
+                
             };
             var result = await _userManager.CreateAsync(applicationUser, model.Password);
             if (result.Succeeded)
             {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
+                var role = new ApplicationRole();
+
+                if (applicationUser.Role == "")
+                {
+                    role.Name = Sd.Role_Patient;
+                }
+                else
+                {
+                    role.Name = applicationUser.Role;
+                }
+                await _userManager.AddToRoleAsync(applicationUser,role.Name);
+                
+/*                await _context.SaveChangesAsync(); 
+*/
+
+                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = applicationUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var callbackUrl = Url.Action(nameof(ConfirmEmail), "RegisterUser", new { userId = applicationUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
                 var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
                            + Path.DirectorySeparatorChar.ToString()
                            + "EmailTemplateHTML"
@@ -119,8 +131,14 @@ namespace Appointment_Management_System_Backend2.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail()
+        {
 
-        [HttpPost("LoginAuthorizeUser")]
+            _logger.LogInformation("EmailConfirm clicked");
+            return Ok("confirmed");
+        }
+            [HttpPost("LoginAuthorizeUser")]
         public async Task<IActionResult> LoginAuthorizeUser([FromBody] LoginViewModel loginViewModel)
         {
             var user = await _userLogin.Authenticate(loginViewModel);

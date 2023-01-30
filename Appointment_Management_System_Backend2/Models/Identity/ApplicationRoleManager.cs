@@ -17,5 +17,10 @@ ILogger<ApplicationRoleManager> logger) : base(appRoleStore, roleValidators, loo
         {
 
         }
+
+        internal Task GetRoleIdAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -27,12 +27,12 @@ namespace Appointment_Management_System_Backend2.Utility
                 {
                     From = new MailAddress(_emailSettings.UsernameEmail, "My Email Name")
                 };
-                    Mail.To.Add(new MailAddress(toEmail));
-                    Mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
-                    Mail.Subject = "Appointment Management System Project:" + subject;
-                    Mail.Body = messege;
-                    Mail.IsBodyHtml = true;
-                    Mail.Priority = MailPriority.High;
+                Mail.To.Add(new MailAddress(toEmail));
+                Mail.CC.Add(new MailAddress(_emailSettings.CcEmail));
+                Mail.Subject = "Appointment Management System Project:" + subject;
+                Mail.Body = messege;
+                Mail.IsBodyHtml = true;
+                Mail.Priority = MailPriority.High;
 
                 using (SmtpClient smtp = new SmtpClient(_emailSettings.PrimaryDomain, _emailSettings.PrimaryPort))
                 {
@@ -40,13 +40,13 @@ namespace Appointment_Management_System_Backend2.Utility
                     smtp.EnableSsl = true;
                     await smtp.SendMailAsync(Mail);
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string str = ex.Message;
             }
-            
+
         }
     }
 }
