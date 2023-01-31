@@ -75,3 +75,4 @@ E:\CS Soft Solution\Appointment Management System\Appointment_Management_System_
 E:\CS Soft Solution\Appointment Management System\Appointment_Management_System_Backend2\bin\Debug\net5.0\System.Text.Encoding.CodePages.dll
 E:\CS Soft Solution\Appointment Management System\Appointment_Management_System_Backend2\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
 E:\CS Soft Solution\Appointment Management System\Appointment_Management_System_Backend2\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\CS Soft Solution\Appointment Management System\Appointment_Management_System_Backend2\obj\Debug\net5.0\Appointment_Management_System_Backend2.csprojAssemblyReference.cache

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 
 function Login() {
@@ -63,6 +63,9 @@ function Login() {
             Login
           </button>
         </div>
+        {/* <Link to="/resetPassword" class="btn btn-outline-success my-2 my-sm-0">Reset Password</Link> */}
+        <Link to="/forgotPassword" class="btn btn-outline-success my-2 my-sm-0">Forget Password</Link>
+
       </div>
     </div>
   );

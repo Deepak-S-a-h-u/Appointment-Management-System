@@ -1,4 +1,6 @@
 ﻿using Appointment_Management_System_Backend2.Data;
+using Appointment_Management_System_Backend2.Email;
+using Appointment_Management_System_Backend2.Email.EmailDto;
 using Appointment_Management_System_Backend2.Models;
 using Appointment_Management_System_Backend2.Models.Identity;
 using Appointment_Management_System_Backend2.Models.ViewModel;
@@ -102,7 +104,11 @@ namespace Appointment_Management_System_Backend2.Controllers
 
                          var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Action(nameof(ConfirmEmail), "RegisterUser", new { userId = applicationUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                
+
+              //  var callbackUrl = Url.Content("https://localhost:44338/api/RegisterUser/ConfirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
+                
+                var callbackUrl = Url.Content("http://localhost:3000/confirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
                 var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
                            + Path.DirectorySeparatorChar.ToString()
                            + "EmailTemplateHTML"
@@ -125,19 +131,14 @@ namespace Appointment_Management_System_Backend2.Controllers
                         callbackUrl
                         );
                 await _emailSender.SendEmailAsync(model.Email, subject, messageBody);
+                
                 return Ok();
             }
             else
             return BadRequest(result.Errors);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ConfirmEmail()
-        {
-
-            _logger.LogInformation("EmailConfirm clicked");
-            return Ok("confirmed");
-        }
+    
             [HttpPost("LoginAuthorizeUser")]
         public async Task<IActionResult> LoginAuthorizeUser([FromBody] LoginViewModel loginViewModel)
         {
@@ -146,7 +147,107 @@ namespace Appointment_Management_System_Backend2.Controllers
                 return BadRequest(new { status = 0, message = "wrong UserName/Password" });
             return Ok(user);
         }
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmail)
+         {
+            var user = await _userManager.FindByIdAsync(confirmEmail.UserId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{confirmEmail.UserId}'.");
+            }
+
+            confirmEmail.Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(confirmEmail.Code));
+            var result = await _userManager.ConfirmEmailAsync(user, confirmEmail.Code);
+            if (!result.Succeeded)
+            {
+                return BadRequest($"Error Accurred While confirming email for user with ID : '{confirmEmail.UserId}':");
+            }
+            return Ok();
+        }
+
+
+        [HttpPost("ResendEmail")]
+        public async Task<IActionResult> ResendEmail([FromBody] ResendEmailDto email)
+        {
+            if (string.IsNullOrEmpty(email.Email)) return BadRequest();
+            var applicationUser = _userManager.FindByEmailAsync(email.Email);
+            if (applicationUser == null) return BadRequest($"User Not Registred With this Email: {email.Email}");
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser.Result);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Content("http://localhost:3000/confirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
+            var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
+                          + Path.DirectorySeparatorChar.ToString()
+                          + "EmailTemplateHTML"
+                          + Path.DirectorySeparatorChar.ToString()
+                          + "EmailTemplateWelcome.html";
+            string Message = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";
+            var subject = "Confirm Account Registration";
+            var builder = new BodyBuilder();
+            using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
+            {
+                builder.HtmlBody = SourceReader.ReadToEnd();
+            }
+            string messageBody = string.Format(builder.HtmlBody,
+                    String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now),
+                    subject,
+                    applicationUser.Result.Email,
+                    applicationUser.Result.UserName,
+                    applicationUser.Result.Email,
+                    Message,
+                    callbackUrl
+                    );
+            await _emailSender.SendEmailAsync(applicationUser.Result.Email, subject, messageBody);
+            return Ok();
+        }
+
+
+
+    [HttpPost("ForgotPassword")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+    {
+        if (string.IsNullOrEmpty(forgotPasswordDto.Email)) return BadRequest();
+        var applicationUser = _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+        if (applicationUser.Result == null) return NotFound();
+        var code = await _userManager.GeneratePasswordResetTokenAsync(applicationUser.Result);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Content("http://localhost:3000/confirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
+            var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
+                          + Path.DirectorySeparatorChar.ToString()
+                          + "EmailTemplateHTML"
+                          + Path.DirectorySeparatorChar.ToString()
+                          + "EmailTemplateWelcome.html";
+            string Message = "Reset Your Password By Clicking Here<a href=\"" + callbackUrl + "\">here</a>";
+        var subject = "Reset Your Password";
+        var builder = new BodyBuilder();
+        using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
+        {
+            builder.HtmlBody = SourceReader.ReadToEnd();
+        }
+        string messageBody = string.Format(builder.HtmlBody,
+                String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now),
+                subject,
+                applicationUser.Result.Email,
+                applicationUser.Result.UserName,
+                applicationUser.Result.Email,
+                Message,
+                callbackUrl
+                );
+        await _emailSender.SendEmailAsync(applicationUser.Result.Email, subject, messageBody);
+        return Ok();
     }
+    [HttpPost("ResetPassword")]
+    public async Task<IActionResult> ResetPassWord(ResetPasswordDto resetPasswordDto)
+    {
+        if (resetPasswordDto == null && !ModelState.IsValid) return BadRequest();
+        var user = _userManager.FindByIdAsync(resetPasswordDto.UserId);
+        if (user.Result == null) return BadRequest();
+        var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(resetPasswordDto.Token));
+        var result = await _userManager.ResetPasswordAsync(user.Result, decodedToken, resetPasswordDto.Password);
+        if (result.Succeeded) return Ok();
+        return BadRequest("Something Went Wrong While Resetting your Password");
+    }
+}
 }
 
 

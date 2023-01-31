@@ -1,8 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+// import ConfirmEmail from "./ConfirmEmail";
 import NavBar from "./NavBar";
 
 function Register() {
+  const navigate = useNavigate();
+
   const initRegisterForm = {
    
     email: "",
@@ -31,15 +35,16 @@ function Register() {
       "https://localhost:44338/api/RegisterUser/RegisterUser/",
       userRegisterForm
     )
-    .then(() => {
-      
+    .then((d) => {
+      console.log(d.data);
+      // <ConfirmEmail abc='data'/>
       console.log("Registered");
         // var token=d.data.token;
         // localStorage.setItem("userToken",token);
         // console.log(d.data.role)
         // localStorage.setItem("Role",d.data.role);
 
-      // navigate("/department");
+      navigate("/login");
     });
   }
 
