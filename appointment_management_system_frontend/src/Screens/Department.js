@@ -4,12 +4,19 @@ import swal from "sweetalert";
 import NavBar from "./NavBar";
 
 function Department() {
+
+  var token = localStorage.getItem("userToken");
+  const Authorization = `Bearer ${token}`;
+
   var departmentInit={
     departmentName:""
   }
   const [department, SetDepartment] = useState([]);
   const [departmentForm, SetDepartmentForm] = useState(departmentInit);
+ 
   useEffect(() => {
+    
+   
     GetAllDepartments();
   },[]);
   const GetAllDepartments = () => {
@@ -27,7 +34,9 @@ function Department() {
   };
   const SaveDepartments = () => {
     axios
-      .post("https://localhost:44338/api/Department/",departmentForm)
+      .post("https://localhost:44338/api/Department/",departmentForm, {
+        headers: { Authorization: Authorization },
+      })
       .then(() => {
         swal({
           title: "Created😍😎",
@@ -84,7 +93,9 @@ function Department() {
 function UpdateDepartmentsClick()
 {
   axios
-  .put("https://localhost:44338/api/Department/",departmentForm)
+  .put("https://localhost:44338/api/Department/",departmentForm, {
+    headers: { Authorization: Authorization },
+  })
   .then(() => {
     swal({
       title: "Good job!",
@@ -110,7 +121,9 @@ function deleteDepartmentClick(id){
   })
   .then((willDelete) => {
     if (willDelete) {
-          axios.delete("https://localhost:44338/api/Department/"+id).then(()=>{
+          axios.delete("https://localhost:44338/api/Department/"+id, {
+            headers: { Authorization: Authorization },
+          }).then(()=>{
                swal("Deleted!", "Department Deleted successfully", "success");
               GetAllDepartments();         
           }).catch((e)=>{

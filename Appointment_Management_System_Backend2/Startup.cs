@@ -88,7 +88,7 @@ namespace Appointment_Management_System_Backend2
             services.Configure<emailSettings>(Configuration.GetSection("EmailSettings"));
 
             services.AddControllers();
-
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment_Management_System_Backend2", Version = "v1" });

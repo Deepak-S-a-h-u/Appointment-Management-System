@@ -5,7 +5,11 @@ import { useEffect } from "react";
 import NavBar from "./NavBar";
 
 function AllUsers() {
+
   const [allusers, SetAllUsers] = useState();
+
+  var token = localStorage.getItem("userToken");
+  const Authorization = `Bearer ${token}`;
 
   useEffect(() => {
     GetAllUsers();
@@ -13,12 +17,12 @@ function AllUsers() {
 
   const GetAllUsers = () => {
     axios
-      .get("https://localhost:44338/api/Admin")
+      .get("https://localhost:44338/api/Admin", {
+        headers: { Authorization: Authorization },
+      })
       .then((d) => {
         SetAllUsers(d.data);
-        console.log(d.data);
-        console.log(d.data);
-        //   SetEmployeeForm(initData);
+      
       })
       .catch((e) => {
         console.log(e);
@@ -29,7 +33,6 @@ function AllUsers() {
     //debugger
     let usersRow = [];
     allusers?.map((item) => {
-      console.log(item)
       usersRow.push(
         <tr>
           <td>{item.name}</td>
@@ -37,10 +40,8 @@ function AllUsers() {
           <td>{item.gender.genderValue}</td>
           <td>{item.email}</td>
           <td>
-          <input type="checkbox" 
-          // defaultChecked={isToggled} onClick={callback} 
-          />
-            {/* <button
+         
+            <button
               className="btn btn-info"
             >
               Lock
@@ -48,7 +49,7 @@ function AllUsers() {
             <button
                    >
                       Unlock
-                    </button> */}
+                    </button>
           </td>
         </tr>
       );

@@ -211,7 +211,7 @@ namespace Appointment_Management_System_Backend2.Controllers
         if (applicationUser.Result == null) return NotFound();
         var code = await _userManager.GeneratePasswordResetTokenAsync(applicationUser.Result);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Content("http://localhost:3000/confirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
+            var callbackUrl = Url.Content("http://localhost:3000/resetPassword/?" + "UserId=" + applicationUser.Id + "&code=" + code);
             var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
                           + Path.DirectorySeparatorChar.ToString()
                           + "EmailTemplateHTML"

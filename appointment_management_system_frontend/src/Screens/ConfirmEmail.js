@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
@@ -16,7 +17,14 @@ function ConfirmEmail() {
     
     useEffect(() => {
         debugger
-    //   axios.post("https://localhost:44338/api/RegisterUser/ConfirmEmail/",values);
+        const myKeyValues=window.location.search;
+        const urlParms=new URLSearchParams(myKeyValues);
+        const UserId=urlParms.get('UserId');
+        const Code=urlParms.get('code');
+        console.log(UserId,Code)
+      const values={UserId,Code}
+      console.log(values);
+       axios.post("https://localhost:44338/api/RegisterUser/ConfirmEmail/",values);
       }, [])
     
   return (

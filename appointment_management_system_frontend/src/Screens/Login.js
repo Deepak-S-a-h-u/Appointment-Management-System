@@ -14,7 +14,6 @@ function Login() {
     console.log(loginCredentials);
   };
   const LoginClick = () => {
-    debugger;
     axios
       .post(
         "https://localhost:44338/api/RegisterUser/LoginAuthorizeUser/",
@@ -23,10 +22,14 @@ function Login() {
       .then((d) => {
         var x = d.data;
         console.log(x);
+
           var token=d.data.token;
           localStorage.setItem("userToken",token);
           console.log(d.data.role)
           localStorage.setItem("Role",d.data.role);
+          var email=d.data.email;
+          localStorage.setItem("email",email);
+
 
         navigate("/department");
       });

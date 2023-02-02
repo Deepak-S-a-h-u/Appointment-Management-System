@@ -47,17 +47,6 @@ namespace Appointment_Management_System_Backend2.Utility.Repository
 
                 var roles = await _applicationUserManager.GetRolesAsync(applicationUser);
 
-                //var role = _context.RoleClaims(role,ApplicationRoleManager)
-
-
-
-
-
-
-
-
-
-
                 //jwt token
                 if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin))
                 {
@@ -81,12 +70,12 @@ namespace Appointment_Management_System_Backend2.Utility.Repository
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                       /* new Claim(ClaimTypes.Name,applicationUser.Id),
+                        new Claim(ClaimTypes.Name,applicationUser.Id),
                         new Claim(ClaimTypes.Email,applicationUser.Email),
                         new Claim(ClaimTypes.Role,applicationUser.Role)
-*/
+
                     }),
-                    Expires = DateTime.UtcNow.AddHours(30),
+                    Expires = DateTime.UtcNow.AddHours(1),
                     //    Expires = DateTime.UtcNow.AddSeconds(10),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };

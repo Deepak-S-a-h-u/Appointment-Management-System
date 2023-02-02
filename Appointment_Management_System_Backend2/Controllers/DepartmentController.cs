@@ -35,8 +35,8 @@ namespace Appointment_Management_System_Backend.Controllers
             return Ok("no data found");
         }
 
-        /*[Authorize(Roles = Sd.Role_Admin)]
-        */
+        
+        [Authorize(Roles = "Admin_User")]
         [HttpPost]
         public IActionResult PostDepartment([FromBody] Department department)
         {
@@ -53,6 +53,8 @@ namespace Appointment_Management_System_Backend.Controllers
                 return Ok("Model state is not valid");
             }
         }
+
+        [Authorize(Roles = "Admin_User")]
         [HttpPut]
         public IActionResult UpdateDepartment([FromBody] Department department)
         {
@@ -67,6 +69,8 @@ namespace Appointment_Management_System_Backend.Controllers
                 return Ok("Model state is not valid");
             }
         }
+
+        [Authorize(Roles = "Admin_User")]
         [HttpDelete("{id}")]
         public IActionResult DeleteDepartment(int id)
         {

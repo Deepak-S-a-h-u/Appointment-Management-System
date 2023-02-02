@@ -6,11 +6,18 @@ import NavBar from "./NavBar";
 
 function Register() {
   const navigate = useNavigate();
+  const[userRole,setUserRole]=useState();
+
+  var role = localStorage.getItem("Role");
+  console.log(role);
+  if (role != null) {
+    setUserRole(role);
+    console.log(userRole);
+  }
 
   const initRegisterForm = {
-   
     email: "",
-    userName:"",
+    userName: "",
     name: "",
     address: "",
     genderId: "",
@@ -28,29 +35,29 @@ function Register() {
     console.log(userRegisterForm);
   };
 
-  function RegisterClick()
-  {
-    debugger
-    axios.post(
-      "https://localhost:44338/api/RegisterUser/RegisterUser/",
-      userRegisterForm
-    )
-    .then((d) => {
-      console.log(d.data);
-      // <ConfirmEmail abc='data'/>
-      console.log("Registered");
+  function RegisterClick() {
+    debugger;
+    axios
+      .post(
+        "https://localhost:44338/api/RegisterUser/RegisterUser/",
+        userRegisterForm
+      )
+      .then((d) => {
+        console.log(d.data);
+        // <ConfirmEmail abc='data'/>
+        console.log("Registered");
         // var token=d.data.token;
         // localStorage.setItem("userToken",token);
         // console.log(d.data.role)
         // localStorage.setItem("Role",d.data.role);
 
-      navigate("/login");
-    });
+        navigate("/login");
+      });
   }
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <div class="row col-sm-10 mx-auto">
         <div class="card-body p-md-5 text-black">
           <h3 class="mb-5 text-uppercase">registration form</h3>
@@ -127,18 +134,29 @@ function Register() {
             </div>
           </div>
 
-          <div class="d-md-flex justify-content-center align-items-center mb-4 py-2">
-            <div class="col-md-6 mb-4">
-              <label class="form-check-label" for="otherGender">
-                Role :
-              </label>
-              <select class="select" name="role" onChange={ChangeHandler}>
-                <option name="role" value="">Patient</option>
-                <option name="role" value="Doctor_User">Doctor</option>
-                <option name="role" value="Reception_User">Reception</option>
-              </select>
+          {userRole != "Admin_User" ? (
+            <div />
+          ) : (
+            <div class="d-md-flex justify-content-center align-items-center mb-4 py-2">
+              <div class="col-md-6 mb-4">
+                <label class="form-check-label" for="otherGender">
+                  Role :
+                </label>
+                <select class="select" name="role" onChange={ChangeHandler}>
+                  <option name="role" value="">
+                    Patient
+                  </option>
+                  <option name="role" value="Doctor_User">
+                    Doctor
+                  </option>
+                  <option name="role" value="Reception_User">
+                    Reception
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
+          )}
+
           <div class="col-12 row">
             <label class="form-label col-4" for="email">
               UserName
@@ -147,7 +165,6 @@ function Register() {
               name="userName"
               // value={}
               type="text"
-              
               onChange={ChangeHandler}
               class="form-control col-7"
             />
@@ -160,7 +177,6 @@ function Register() {
               name="email"
               // value={}
               type="text"
-              
               onChange={ChangeHandler}
               class="form-control col-7"
             />

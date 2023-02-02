@@ -1,5 +1,6 @@
 ﻿using Appointment_Management_System_Backend2.Data;
 using Appointment_Management_System_Backend2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace Appointment_Management_System_Backend2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin_User")]
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
