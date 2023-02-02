@@ -19,8 +19,8 @@ namespace Appointment_Management_System_Backend2.Models
         [Required]
         public int GenderId { get; set; }
         public Gender Gender { get; set; }
-        [Required]
-        public string Email { get; set; }
+        //[Required]
+        //public string Email { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         [Required]

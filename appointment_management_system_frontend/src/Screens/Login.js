@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import swal from "sweetalert";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -29,9 +31,17 @@ function Login() {
           localStorage.setItem("Role",d.data.role);
           var email=d.data.email;
           localStorage.setItem("email",email);
+          var name=d.data.name;
+          localStorage.setItem("name",name);
+
+          swal({
+            title: "Welcome "+ name,
+            text: "User with email id : "+email+"  logged in successfully" ,
+            icon: "success",
+          });
 
 
-        navigate("/department");
+        navigate("/home");
       });
   };
 

@@ -7,6 +7,7 @@ import ForgotPassword from './ForgotPassword'
 import Home from './Home'
 import Login from './Login'
 import Register from './Register'
+import ResendEmail from './ResendEmail'
 import ResetPassword from './ResetPassword'
 
 function Routing() {
@@ -24,6 +25,7 @@ function Routing() {
         <Route path='/confirmEmail' element={<ConfirmEmail/>}/>       
         <Route path='/resetPassword' element={<ResetPassword/>}/>       
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>       
+        <Route path='/resendEmail' element={<ResendEmail/>}/>       
 
 
        </Routes>

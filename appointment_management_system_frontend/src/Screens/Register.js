@@ -5,15 +5,11 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 
 function Register() {
-  const navigate = useNavigate();
-  const[userRole,setUserRole]=useState();
-
   var role = localStorage.getItem("Role");
   console.log(role);
-  if (role != null) {
-    setUserRole(role);
-    console.log(userRole);
-  }
+  const navigate = useNavigate();
+  const[userRole]=useState(role);
+
 
   const initRegisterForm = {
     email: "",
@@ -51,7 +47,7 @@ function Register() {
         // console.log(d.data.role)
         // localStorage.setItem("Role",d.data.role);
 
-        navigate("/login");
+        navigate("/resendEmail");
       });
   }
 
@@ -134,7 +130,7 @@ function Register() {
             </div>
           </div>
 
-          {userRole != "Admin_User" ? (
+          {userRole !== "Admin_User" ? (
             <div />
           ) : (
             <div class="d-md-flex justify-content-center align-items-center mb-4 py-2">

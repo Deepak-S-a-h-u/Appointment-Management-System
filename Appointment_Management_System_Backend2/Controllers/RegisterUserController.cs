@@ -52,7 +52,7 @@ namespace Appointment_Management_System_Backend2.Controllers
             _userLogin = userLogin;
         }
 
-        [NonAction]
+     /*   [NonAction]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -66,7 +66,7 @@ namespace Appointment_Management_System_Backend2.Controllers
                 return BadRequest($"Error confirming email for user with ID '{userId}':");
             }
             return Ok();
-        }
+        }*/
 
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser([FromBody] ApplicationUser model)
@@ -91,7 +91,9 @@ namespace Appointment_Management_System_Backend2.Controllers
 
                 if (applicationUser.Role == "")
                 {
-                    role.Name = Sd.Role_Patient;
+                   role.Name = Sd.Role_Patient;
+                    //role.Name = Sd.Role_Admin;
+
                 }
                 else
                 {
@@ -171,9 +173,9 @@ namespace Appointment_Management_System_Backend2.Controllers
         public async Task<IActionResult> ResendEmail([FromBody] ResendEmailDto email)
         {
             if (string.IsNullOrEmpty(email.Email)) return BadRequest();
-            var applicationUser = _userManager.FindByEmailAsync(email.Email);
+            var applicationUser =await _userManager.FindByEmailAsync(email.Email);
             if (applicationUser == null) return BadRequest($"User Not Registred With this Email: {email.Email}");
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser.Result);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = Url.Content("http://localhost:3000/confirmEmail/?" + "UserId=" + applicationUser.Id + "&code=" + code);
             var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
@@ -191,13 +193,13 @@ namespace Appointment_Management_System_Backend2.Controllers
             string messageBody = string.Format(builder.HtmlBody,
                     String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now),
                     subject,
-                    applicationUser.Result.Email,
-                    applicationUser.Result.UserName,
-                    applicationUser.Result.Email,
+                    applicationUser.Email,
+                    applicationUser.UserName,
+                    applicationUser.Email,
                     Message,
                     callbackUrl
                     );
-            await _emailSender.SendEmailAsync(applicationUser.Result.Email, subject, messageBody);
+            await _emailSender.SendEmailAsync(applicationUser.Email, subject, messageBody);
             return Ok();
         }
 
@@ -211,12 +213,12 @@ namespace Appointment_Management_System_Backend2.Controllers
         if (applicationUser.Result == null) return NotFound();
         var code = await _userManager.GeneratePasswordResetTokenAsync(applicationUser.Result);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Content("http://localhost:3000/resetPassword/?" + "UserId=" + applicationUser.Id + "&code=" + code);
+            var callbackUrl = Url.Content("http://localhost:3000/resetPassword/?");
             var pathToFile = _env.ContentRootPath + Path.DirectorySeparatorChar.ToString() + "Email"
                           + Path.DirectorySeparatorChar.ToString()
                           + "EmailTemplateHTML"
                           + Path.DirectorySeparatorChar.ToString()
-                          + "EmailTemplateWelcome.html";
+                          + "EmailTemplateForgetPassword.html";
             string Message = "Reset Your Password By Clicking Here<a href=\"" + callbackUrl + "\">here</a>";
         var subject = "Reset Your Password";
         var builder = new BodyBuilder();
@@ -229,7 +231,7 @@ namespace Appointment_Management_System_Backend2.Controllers
                 subject,
                 applicationUser.Result.Email,
                 applicationUser.Result.UserName,
-                applicationUser.Result.Email,
+                applicationUser.Result.Password,
                 Message,
                 callbackUrl
                 );

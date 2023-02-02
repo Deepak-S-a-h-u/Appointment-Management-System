@@ -1,7 +1,25 @@
+import axios from "axios";
 import React from "react";
+import { useState } from "react";
 import NavBar from "./NavBar";
 
 function ForgotPassword() {
+  const emailInit = { email: "" };
+  const [userEmail, SetuserEmail] = useState(emailInit);
+  const ChangeHandler = (event) => {
+    SetuserEmail({
+      ...userEmail,
+      [event.target.name]: event.target.value,
+    });
+    console.log(userEmail);
+  };
+  const ForgetPasswordBtn = () => {
+    axios
+      .post("https://localhost:44338/api/RegisterUser/ForgotPassword", userEmail)
+      .then((d) => {
+        console.log("forget password",d.data);
+      });
+  };
   return (
     <div>
       <NavBar />
@@ -18,9 +36,9 @@ function ForgotPassword() {
             <label className="form-label text-center" for="typeEmail">
               Email input
             </label>
-            <input type="email" id="typeEmail" className="form-control my-3" />
+            <input type="email" onChange={ChangeHandler} name="email" value={userEmail.email} id="typeEmail" className="form-control my-3" />
           </div>
-          <a href="#" className="btn btn-primary w-100 col-6">
+          <a onClick={ForgetPasswordBtn} className="btn btn-primary w-100 col-6">
             Reset password
           </a>
           <div className="d-flex justify-content-between mt-4">
