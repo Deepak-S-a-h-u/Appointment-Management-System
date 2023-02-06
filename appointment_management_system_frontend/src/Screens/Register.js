@@ -54,10 +54,12 @@ function Register() {
   return (
     <div>
       <NavBar />
+      <form>
+       <div className="row col-5 bg-info mx-auto">
       <div class="row col-sm-10 mx-auto">
         <div class="card-body p-md-5 text-black">
           <h3 class="mb-5 text-uppercase">registration form</h3>
-
+        
           <div class="col-12 row">
             <label class="form-label col-4" for="Name">
               Name
@@ -70,6 +72,7 @@ function Register() {
               class="form-control col-6"
             />
           </div>
+          <br/>
 
           <div class="col-12 row">
             <label class="form-label col-4" for="Address">
@@ -83,7 +86,7 @@ function Register() {
               class="form-control col-6"
             />
           </div>
-
+          <br/>
           <div class="d-md-flex justify-content-center align-items-center mb-4 py-2">
             <h6 class="mb-0 me-4">Gender: </h6>
 
@@ -129,7 +132,6 @@ function Register() {
               </label>
             </div>
           </div>
-
           {userRole !== "Admin_User" ? (
             <div />
           ) : (
@@ -152,7 +154,7 @@ function Register() {
               </div>
             </div>
           )}
-
+           <br/>
           <div class="col-12 row">
             <label class="form-label col-4" for="email">
               UserName
@@ -162,9 +164,10 @@ function Register() {
               // value={}
               type="text"
               onChange={ChangeHandler}
-              class="form-control col-7"
+              class="form-control col-6"
             />
           </div>
+          <br/>
           <div class="col-12 row">
             <label class="form-label col-4" for="email">
               Email ID
@@ -174,9 +177,10 @@ function Register() {
               // value={}
               type="text"
               onChange={ChangeHandler}
-              class="form-control col-7"
+              class="form-control col-6"
             />
           </div>
+          <br/>          
           <div class="col-12 row">
             <label class="form-label col-4" for="Address">
               Password
@@ -189,6 +193,7 @@ function Register() {
               class="form-control col-6"
             />
           </div>
+          <br/>
           <div class="col-12 row">
             <label class="form-label col-4" for="Address">
               Confirm Password
@@ -201,7 +206,7 @@ function Register() {
               class="form-control col-6"
             />
           </div>
-
+          <br/>
           <div class="d-md-flex justify-content-center align-items-center mb-4 py-2">
             <button
               onClick={RegisterClick}
@@ -212,7 +217,10 @@ function Register() {
             </button>
           </div>
         </div>
+        
       </div>
+      </div> 
+     </form>
     </div>
   );
 }

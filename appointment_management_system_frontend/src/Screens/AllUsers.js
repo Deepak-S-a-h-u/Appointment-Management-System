@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import NavBar from "./NavBar";
 
-function AllUsers() {
+function AllUsers(props) {
 
   const [allusers, SetAllUsers] = useState();
-
+// var token=props.data;
   var token = localStorage.getItem("userToken");
   const Authorization = `Bearer ${token}`;
 

@@ -13,8 +13,8 @@ namespace Appointment_Management_System_Backend2.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         public string Disease { get; set; }
-       /* public int? DoctorAssignedId { get; set; }
-        public DoctorDetails DoctorDetails { get; set; }*/
+        public int? DoctorAssignedId { get; set; }
+        public DoctorDetails DoctorDetails { get; set; }
         public bool StatusPatient { get; set; }
     }
 }

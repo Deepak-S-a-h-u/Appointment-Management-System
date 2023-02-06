@@ -12,7 +12,7 @@ namespace Appointment_Management_System_Backend2.Models
 {
     public class ApplicationUser:IdentityUser
     {
-       
+
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }

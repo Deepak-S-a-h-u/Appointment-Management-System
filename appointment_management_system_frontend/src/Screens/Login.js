@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import swal from "sweetalert";
+import AllUsers from "./AllUsers";
 
 
 function Login() {
+  var token = localStorage.getItem("userToken");
   const navigate = useNavigate();
   const [loginCredentials, SetLoginCredentials] = useState({});
   const ChangeHandler = (event) => {

@@ -56,9 +56,10 @@ namespace Appointment_Management_System_Backend2
 
 
             services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<IUserLogin, UserLogin>();
+            services.AddScoped<IUserLogin, UserLogin>(); 
+            services.AddScoped<IForgetPassword, ForgetPassword>();
 
-              services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 
             //add JWT Authentication

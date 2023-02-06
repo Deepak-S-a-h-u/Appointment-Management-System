@@ -48,20 +48,20 @@ namespace Appointment_Management_System_Backend2.Utility.Repository
                 var roles = await _applicationUserManager.GetRolesAsync(applicationUser);
 
                 //jwt token
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin))
+                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Roles.Role_Admin))
                 {
-                    applicationUser.Role = Sd.Role_Admin;
+                    applicationUser.Role = Roles.Role_Admin;
                     /*                    applicationUser.Role = SD.GetClaim && SD.PostClaim;
                     */
                 }
-                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Admin))
-                    applicationUser.Role = Sd.Role_Admin;
-                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Doctor))
-                    applicationUser.Role = Sd.Role_Doctor;
-                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Reception))
-                    applicationUser.Role = Sd.Role_Reception;
-                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Sd.Role_Patient))
-                    applicationUser.Role = Sd.Role_Patient;
+                if (await _applicationUserManager.IsInRoleAsync(applicationUser, Roles.Role_Admin))
+                    applicationUser.Role = Roles.Role_Admin;
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Roles.Role_Doctor))
+                    applicationUser.Role = Roles.Role_Doctor;
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Roles.Role_Reception))
+                    applicationUser.Role = Roles.Role_Reception;
+                else if (await _applicationUserManager.IsInRoleAsync(applicationUser, Roles.Role_Patient))
+                    applicationUser.Role = Roles.Role_Patient;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = System.Text.Encoding.ASCII.GetBytes(_appSettings.Secret);
